@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Train Scheduler</title>
+    <link rel="stylesheet" href="assets/style/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <!------------------------- HEAD ------------------------->
+    <div class="jumbotron container" id="center">
+        <h1 class="display-4">Trains Are Here</h1>
+        <p class="lead">Info here.</p>
+    </div>
+    <!------------------------- HEAD ------------------------->
+
+    <!------------------------- DISPLAY INFO ------------------------->
+    <table class="table container">
+            <thead class="thead-l">
+              <tr>
+                <th scope="col">Train Name</th>
+                <th scope="col">Destination</th>
+                <th scope="col">Frequency (min)</th>
+                <th scope="col">Next Arrival</th>
+                <th scope="col">Minutes Away</th>
+              </tr>
+            </thead>
+            <tbody id="newTrain">
+             
+            </tbody>
+          </table>
+          
+    <!------------------------- DISPLAY INFO ------------------------->
+
+    <!------------------------- INPUT ------------------------->
+<div class="container card thead-dark" id="border">
+    <div class="card-header">Add Train</div>
+    <form >
+        <div class="form-group">
+            <label for="name">Trian Name</label>
+            <input type="name" class="form-control" id="name-input">
+        </div>
+        <div class="form-group">
+            <label for="destination1">Destination</label>
+            <input type="destination" class="form-control" id="destination-input">
+        </div>
+        <div class="form-group">
+            <label for="time1">First Train Time</label>
+            <input type="time" class="form-control" id="time-input">
+        </div>
+        <div class="form-group">
+            <label for="frequency1">Frequency</label>
+            <input type="frequency" class="form-control" id="frequency-input">
+        </div>
+        
+        <button id="click" type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+    <!------------------------- INPUT ------------------------->
+
+    <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/scripts/app.js"></script>
+</body>
+</html>
