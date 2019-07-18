@@ -8,7 +8,6 @@ var firebaseConfig = {
   messagingSenderId: "413174959670",
   appId: "1:413174959670:web:408c26be740e140d"
 };
-
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 // ========================  Firebase configuration ======================== //
@@ -18,30 +17,31 @@ const database = firebase.database();
 let trainName = "new";
 let destination = "new ";
 let frequency = 0;
-let nextArrival = 0;
+let firstTrainTime = 0;
 let minutesAway = 0;
 
-const format = "MMMM Do YYYY HH:mm"
-const currentTime = moment().format(format)
-
-$('#time').text(currentTime)
-
-
+    // =============== DISPLAY CURRENT TIME ===============//
+    const format = "MMMM Do YYYY HH:mm"
+    const currentTime = moment().format(format)
+    $('#time').text(currentTime)
+    // =============== DISPLAY CURRENT TIME ===============//
 // ========================  VARIABLES ======================== //
+
+
 // ========================  SUBMITT DATA ======================== //
 $("#click").on("click", function() {
   event.preventDefault();
 
   trainName = $("#name-input").val().trim()
   destination = $("#destination-input").val().trim()
-  nextArrival = $("#time-input").val()
+  firstTrainTime = $("#time-input").val()
   frequency = $("#frequency-input").val().trim()
 
   let newTrain = {
     trainName: trainName,
     destination: destination,
     frequency: frequency,
-    nextArrival: nextArrival
+    firstTrainTime: firstTrainTime
   };
   
 
@@ -55,8 +55,8 @@ $("#click").on("click", function() {
 });
 // ========================  SUBMITT DATA ======================== //
 
-// ========================  LOAD/ADD DATABASE ======================== //
 
+// ========================  LOAD/ADD DATABASE ======================== //
 database.ref().on("child_added", function(childSnapshot) {
   let snap = childSnapshot.val();
   
@@ -65,29 +65,28 @@ database.ref().on("child_added", function(childSnapshot) {
   let trainName = snap.trainName;
   let destination = snap.destination;
   let frequency = snap.frequency;
-  let nextArrival = snap.nextArrival;
+  let firstTrainTime = snap.firstTrainTime;
 
+    // =============== TIME ===============//
+    firstTrainTime = moment(firstTrainTime, "HH:mm")
+    frequency = moment(frequency, "mm")  
 
-  nextArrival = moment(nextArrival, "HH:mm")
+    let minutesAway = parseInt(firstTrainTime.diff(moment(), 'minutes'))
+      console.log("FREQUENCY_____________" +frequency)
+      console.log("FirstTrain Time _______" + firstTrainTime)
+      // if (diffTime <=  0) {
+      //   firstTrainTime = firstTrainTime + frequency
+      // }
+      
+      firstTrainTime.format("HH:mm")
+    // =============== TIME ===============//
 
-  let diffTime = nextArrival.diff(moment(), 'minutes')
-  console.log(diffTime)
-
-  if (diffTime < nextArrival) {
-    diffTime = diffTime + 1440 //number of min in a day
-  }
-
-  let minutesAway = diffTime
-
-  nextArrival.format("HH:mm")
- 
-  
   $("#newTrain").append(`
   <tr>
     <td id="name">${trainName}</td>
     <td id="destination">${destination}</td>
-    <td id="frequency">${frequency}</td>
-    <td id="nextArrival">${nextArrival}</td>
+    <td id="frequency">${frequency.format("mm")}</td>
+    // <td id="firstTrainTime">${firstTrainTime.format("HH:mm A")}</td>
     <td id="minutesAway">${minutesAway}</td>
   </tr> 
   `);
@@ -97,26 +96,3 @@ database.ref().on("child_added", function(childSnapshot) {
 };
 // ======================== LOAD/ADD DATABASE ======================== //
  
-
-// const testTime = moment()
-
-//   $("#TIMETEST").on('click', function() {
-//     event.preventDefault()
-
-//     TEST = $("#TEST").val().trim()
-
-//     TEST = moment(TEST, "HH:mm")
-//     console.log(TEST)
-//     // $("#test").append(testTime.toString() + "      " + TEST + "        ")
-
-//     let diffTime = TEST.diff(moment(), 'minutes')
-
-//     if (diffTime < TEST) {
-//       diffTime = diffTime + 1440 //number of min in a day
-//     }
-//     // diffTime = Math.abs(diffTime)
-//     // let newTime = testTime + diffTime
-//     // newTime = moment(newTime, "X").format("HH:mm")
-
-//     $("#fuck").append(diffTime)
-//   });
