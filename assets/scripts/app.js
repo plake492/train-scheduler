@@ -18,10 +18,9 @@ let trainName = "new";
 let destination = "new ";
 let frequency = 0;
 let firstTrainTime = 0;
-let minutesAway = 0;
 
     // =============== DISPLAY CURRENT TIME ===============//
-    const format = "MMMM Do YYYY HH:mm"
+    const format = "HH:mm A"
     const currentTime = moment().format(format)
     $('#time').text(currentTime)
     // =============== DISPLAY CURRENT TIME ===============//
@@ -68,25 +67,26 @@ database.ref().on("child_added", function(childSnapshot) {
   let firstTrainTime = snap.firstTrainTime;
 
     // =============== TIME ===============//
-    firstTrainTime = moment(firstTrainTime, "HH:mm")
-    frequency = moment(frequency, "mm")  
+    let convertTrainTime = moment(firstTrainTime, "HH:mm").subtract(1, "days");
 
-    let minutesAway = parseInt(firstTrainTime.diff(moment(), 'minutes'))
-      console.log("FREQUENCY_____________" +frequency)
-      console.log("FirstTrain Time _______" + firstTrainTime)
-      // if (diffTime <=  0) {
-      //   firstTrainTime = firstTrainTime + frequency
-      // }
-      
-      firstTrainTime.format("HH:mm")
+    //time between firstTrain and Current Time
+    let newTime = moment().diff(moment(convertTrainTime), "minutes");
+    console.log("new Time:  " + newTime)
+
+    let remainder = newTime % frequency;
+    console.log("REAMINDER:   " + remainder);
+
+    let minutesAway = frequency - remainder
+    let nextTrain = moment().add(minutesAway, "minutes");
+    let nextArrival = moment(nextTrain).format("HH:mm");
     // =============== TIME ===============//
 
   $("#newTrain").append(`
   <tr>
     <td id="name">${trainName}</td>
     <td id="destination">${destination}</td>
-    <td id="frequency">${frequency.format("mm")}</td>
-    // <td id="firstTrainTime">${firstTrainTime.format("HH:mm A")}</td>
+    <td id="frequency">${frequency}</td>
+    // <td id="firstTrainTime">${nextArrival}</td>
     <td id="minutesAway">${minutesAway}</td>
   </tr> 
   `);
@@ -95,4 +95,8 @@ database.ref().on("child_added", function(childSnapshot) {
 
 };
 // ======================== LOAD/ADD DATABASE ======================== //
- 
+
+
+// if the first trian arrives at 12 noon, and comes every 60 minutes, 
+//train would come at 1, 2, 3, 4, 5, 6, 7, etc
+// at 12:15am, the train would be 45 minutes away
