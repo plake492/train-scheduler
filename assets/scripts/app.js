@@ -18,7 +18,6 @@ let trainName = "new";
 let destination = "new ";
 let frequency = 0;
 let firstTrainTime = 0;
-
     // =============== DISPLAY CURRENT TIME ===============//
     const format = "HH:mm A"
     const currentTime = moment().format(format)
@@ -43,8 +42,6 @@ $("#click").on("click", function() {
     firstTrainTime: firstTrainTime
   };
   
-
-
   database.ref().push(newTrain);
 
   $("#name-input").val("")
@@ -66,20 +63,22 @@ database.ref().on("child_added", function(childSnapshot) {
   let frequency = snap.frequency;
   let firstTrainTime = snap.firstTrainTime;
 
-    // =============== TIME ===============//
-    let convertTrainTime = moment(firstTrainTime, "HH:mm").subtract(1, "days");
+      // =============== TIME ===============//
+      let convertTrainTime = moment(firstTrainTime, "HH:mm").subtract(1, "days");
+      console.log("convereted" + convertTrainTime)
+      //time between firstTrain and Current Time
+      let newTime = moment().diff(moment(convertTrainTime), "minutes");
 
-    //time between firstTrain and Current Time
-    let newTime = moment().diff(moment(convertTrainTime), "minutes");
-    console.log("new Time:  " + newTime)
+      let remainder = newTime % frequency;
+      console.log("New Time:  " + newTime)
+      console.log("Frequency:  " + frequency)
+      console.log("======")
+      console.log("REAMINDER:   " + remainder);
 
-    let remainder = newTime % frequency;
-    console.log("REAMINDER:   " + remainder);
-
-    let minutesAway = frequency - remainder
-    let nextTrain = moment().add(minutesAway, "minutes");
-    let nextArrival = moment(nextTrain).format("HH:mm");
-    // =============== TIME ===============//
+      let minutesAway = frequency - remainder
+      let nextTrain = moment().add(minutesAway, "minutes");
+      let nextArrival = moment(nextTrain).format("HH:mm");
+      // =============== TIME ===============//
 
   $("#newTrain").append(`
   <tr>
@@ -97,6 +96,69 @@ database.ref().on("child_added", function(childSnapshot) {
 // ======================== LOAD/ADD DATABASE ======================== //
 
 
-// if the first trian arrives at 12 noon, and comes every 60 minutes, 
-//train would come at 1, 2, 3, 4, 5, 6, 7, etc
-// at 12:15am, the train would be 45 minutes away
+
+// ======================== Connect TO Live Trian API ======================== //
+// let station = $(this).attr("data-name"); 
+// const queryURL = "http://transportapi.com/v3/uk/places.json?query=" + station + "&type=train_station&app_id=810f327a&app_key=7648ed95a840fc22d49f0237259e2df9";
+
+
+// $.ajax({
+//     url: queryURL,
+//     method: "GET"
+//   })
+//   .then(function(response) {
+
+//   console.log(response)
+//   console.log(response.member[0].name)
+//   console.log(response.member[0].latitude)
+//   console.log(response.member[0].longitude)
+
+//   $("#clickStation").on("click", function() {
+//     event.preventDefault()
+//     station = $("#stationInput").val().trim()
+//     console.log(station)
+
+//     $("#realTrain").append(`
+//     <tr>
+//       <td id="name">${response.member[0].name}</td>
+//       <td id="latitude">${response.member[0].latitude}</td>
+//       <td id="longitude">${response.member[0].longitude}</td>
+//     </tr> 
+//     `);
+
+//   });
+// });
+// ======================== Connect TO Live Trian API ======================== //
+
+
+
+// ======================== Train GIF ======================== //
+let queryURL2 ="https://api.giphy.com/v1/gifs/search?api_key=7h1vvQHXMixjDPQUyFAyvM6d9E60ANw4&q=train&limit=100&rating=g";
+       
+  $.ajax({
+    url: queryURL2,
+    method: "GET"
+  }).then(function(response) {
+  console.log(response)
+  
+
+  $('#click').on('click', displayGif);
+
+    function displayGif () {
+      
+      for (let i =0; i < 4; i++) {
+      let random = Math.floor(Math.random() *100)
+      console.log(random)
+    
+      $('#gif').append(`
+      <div>
+       <img id="gifImg"src="${response.data[random].images.fixed_width.url}">
+      </div>   
+      `)
+      }
+      console.log(response.data[random].images.fixed_width.url)
+    
+  };
+});
+// ======================== Train GIF ======================== //
+

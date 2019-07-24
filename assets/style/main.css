@@ -1,6 +1,76 @@
+body {
+    margin: 40px;
+    background-image: url(../images/train1.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* font-family: 'Barlow', sans-serif; */
+
+}
+
+#everything {
+    font-family: 'Barlow', sans-serif;
+    font-weight: bold
+}
+
 .jumbotron {
     text-align: center;
+    /* margin:50px 500px 20px 50px; */
+    font-family: 'Barlow', sans-serif;
 }
+
+.card {
+    /* margin: 0 500px 0 50px; */
+    padding: 40px;
+    font-family: 'Barlow', sans-serif;
+}
+
 #center {
-    padding: 10px
+    padding: 40px 0 40px 0;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+#displayTrains {
+    background-color: rgba(255, 255, 255, 0.8);
+    height: 400px;
+    overflow: scroll
+}
+
+
+
+#inputTrains {
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 50px;
+}
+
+#cardInputHead {
+    text-align: center
+}
+
+#click {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: black;
+    border-color:white;
+    padding: 10px;   
+}
+#clickStation {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: black;
+    border-color:white;
+    padding: 10px;   
+}
+#gifImg {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0);
+    height: 150px;
+    width: 200px;
+    margin: 40px 0 0 0 
+}
+#gif {
+    height: auto;
 }
