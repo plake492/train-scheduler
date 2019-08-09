@@ -144,7 +144,9 @@ let queryURL2 ="https://api.giphy.com/v1/gifs/search?api_key=7h1vvQHXMixjDPQUyFA
 
   $('#click').on('click', displayGif);
 
+   
     function displayGif () {
+      $('#gif').empty()
       
       for (let i =0; i < 4; i++) {
       let random = Math.floor(Math.random() *100)
